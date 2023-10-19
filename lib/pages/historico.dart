@@ -1,29 +1,26 @@
-import 'package:cepapp/pages/historico.dart';
-import 'package:cepapp/repository/cep_back4app_repository.dart';
 import 'package:cepapp/services/via_cep_service.dart';
 import 'package:flutter/material.dart';
 
 import '../model/viacepmodel.dart';
 
 
-class ConsultaCEP extends StatefulWidget {
-  const ConsultaCEP({Key? key}) : super(key: key);
+class Historico extends StatefulWidget {
+  const Historico({Key? key}) : super(key: key);
 
   @override
-  State<ConsultaCEP> createState() => _ConsultaCEPState();
+  State<Historico> createState() => _HistoricoState();
 }
 
-class _ConsultaCEPState extends State<ConsultaCEP> {
+class _HistoricoState extends State<Historico> {
   var cepController = TextEditingController(text: "");
   bool loading = false;
   var viacepModel = ViaCEPModel();
-  var viaCEPService = ViaCepService();
-  var viaCEPRepository = ViaCEPRepository();
+  var viaCEPRepository = ViaCepService();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(title: const Row(
+            appBar: AppBar(title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
                Icon(Icons.mail, 
@@ -31,7 +28,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
               ),
                Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text("Consulta CEP", 
+                child: Text("Historico de Pesquisas", 
                 style: TextStyle(fontSize: 18, color: Colors.white70),
                 ),
               ),
@@ -76,7 +73,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                     setState(() {
                       loading = true;
                     });
-                    viacepModel = await viaCEPService.consultarCEP(cep);
+                    viacepModel = await viaCEPRepository.consultarCEP(cep);
                   }
                   setState(() {
                     loading = false;
@@ -84,7 +81,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                 },
               ),
 
-              const Padding(
+              Padding(
                 padding: const EdgeInsets.fromLTRB(8,30,8,20),
                 child: Divider(
                   thickness: 3.0,
@@ -107,7 +104,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                           children: [
                       Text(
                       viacepModel.cep ?? "",
-                      style: const TextStyle(fontSize: 22,
+                      style: TextStyle(fontSize: 22,
                       color: Colors.white70),
                                   ),
                             Column(
@@ -115,18 +112,18 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                               children: [
                       Text(
                       viacepModel.logradouro ?? "",
-                      style: const TextStyle(fontSize: 22,
+                      style: TextStyle(fontSize: 22,
                       color: Colors.white70),
                                       ),
                       Text(
                       viacepModel.bairro ?? "",
-                      style: const TextStyle(fontSize: 22,
+                      style: TextStyle(fontSize: 22,
                       color: Colors.white70),
                                       ),
 
                       Text(
                       "${viacepModel.localidade ?? ""} - ${viacepModel.uf ?? ""}",
-                      style: const TextStyle(fontSize: 22,
+                      style: TextStyle(fontSize: 22,
                       color: Colors.white70),
                                       ),
                                       if (loading) CircularProgressIndicator()
@@ -145,7 +142,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                 ),
           ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
         onPressed: () async {},
       ),
     ));
