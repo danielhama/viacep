@@ -9,6 +9,8 @@ class ViaCEPModel {
   String? _gia;
   String? _ddd;
   String? _siafi;
+  String? objectId;
+
 
   ViaCEPModel(
       {String? cep,
@@ -20,36 +22,41 @@ class ViaCEPModel {
       String? ibge,
       String? gia,
       String? ddd,
-      String? siafi}) {
+      String? siafi,
+      String? objectId
+}) {
     if (cep != null) {
-      this._cep = cep;
+      _cep = cep;
     }
     if (logradouro != null) {
-      this._logradouro = logradouro;
+      _logradouro = logradouro;
     }
     if (complemento != null) {
-      this._complemento = complemento;
+      _complemento = complemento;
     }
     if (bairro != null) {
-      this._bairro = bairro;
+      _bairro = bairro;
     }
     if (localidade != null) {
-      this._localidade = localidade;
+      _localidade = localidade;
     }
     if (uf != null) {
-      this._uf = uf;
+      _uf = uf;
     }
     if (ibge != null) {
-      this._ibge = ibge;
+      _ibge = ibge;
     }
     if (gia != null) {
-      this._gia = gia;
+      _gia = gia;
     }
     if (ddd != null) {
-      this._ddd = ddd;
+      _ddd = ddd;
     }
     if (siafi != null) {
-      this._siafi = siafi;
+      _siafi = siafi;
+    }
+        if (objectId != null) {
+      this.objectId = objectId;
     }
   }
 
@@ -87,18 +94,50 @@ class ViaCEPModel {
     _siafi = json['siafi'];
   }
 
+    ViaCEPModel.fromJsonEndPoint(Map<String, dynamic> json) {
+    _cep = json['cep'];
+    _logradouro = json['logradouro'];
+    _complemento = json['complemento'];
+    _bairro = json['bairro'];
+    _localidade = json['localidade'];
+    _uf = json['uf'];
+    _ibge = json['ibge'];
+    _gia = json['gia'];
+    _ddd = json['ddd'];
+    _siafi = json['siafi'];
+    objectId = json['objectId'];
+
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cep'] = this._cep;
-    data['logradouro'] = this._logradouro;
-    data['complemento'] = this._complemento;
-    data['bairro'] = this._bairro;
-    data['localidade'] = this._localidade;
-    data['uf'] = this._uf;
-    data['ibge'] = this._ibge;
-    data['gia'] = this._gia;
-    data['ddd'] = this._ddd;
-    data['siafi'] = this._siafi;
+    data['cep'] = _cep;
+    data['logradouro'] = _logradouro;
+    data['complemento'] = _complemento;
+    data['bairro'] = _bairro;
+    data['localidade'] = _localidade;
+    data['uf'] = _uf;
+    data['ibge'] = _ibge;
+    data['gia'] = _gia;
+    data['ddd'] = _ddd;
+    data['siafi'] = _siafi;
+    return data;
+  }
+
+    Map<String, dynamic> toJsonEndPoint() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cep'] = _cep;
+    data['logradouro'] = _logradouro;
+    data['complemento'] = _complemento;
+    data['bairro'] = _bairro;
+    data['localidade'] = _localidade;
+    data['uf'] = _uf;
+    data['ibge'] = _ibge;
+    data['gia'] = _gia;
+    data['ddd'] = _ddd;
+    data['siafi'] = _siafi;
+    data['objectId'] = objectId;
+
     return data;
   }
 }

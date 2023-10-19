@@ -20,13 +20,21 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(title: Row(
+          bottomNavigationBar: BottomNavigationBar(items: const [BottomNavigationBarItem(icon: Icon(Icons.home),
+          label: "Home",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.history),
+          label: "Historico",
+          ),
+          ]
+          ),
+          appBar: AppBar(title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.mail, 
+               Icon(Icons.mail, 
               color: Colors.white70,
               ),
-              Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text("Consulta CEP", 
                 style: TextStyle(fontSize: 18, color: Colors.white70),
@@ -34,7 +42,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
               ),
             ],
           ),
-          backgroundColor: const Color.fromARGB(255, 59, 58, 56),
+          backgroundColor: Color(0xFF3B3A38),
           ),
           body: Container(
           color: const Color.fromARGB(255, 59, 58, 56),
@@ -44,11 +52,30 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
             child: Column(
             children: [
               TextField(
+                
                 style: TextStyle(fontSize: 18, color: Colors.white70),
                 controller: cepController,
                 keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  suffix: Icon(Icons.search, 
+                  color: Colors.white70,),
+                hintText: "Digite um CEP",
+
+                hintStyle: TextStyle(fontSize: 14, color: Color.fromARGB(255, 255, 165, 30)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 255, 165, 30))
+                    ),
+                    
+                  icon: Icon(Icons.qr_code,
+                  color: Colors.white70,),
+                ),
                 //maxLength: 8,
-                onChanged: (String value) async {
+                onSubmitted: (String value) async {
                   var cep = value.replaceAll(new RegExp(r'[^0-9]'), '');
                   if (cep.length == 8) {
                     setState(() {
@@ -61,18 +88,63 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                   });
                 },
               ),
-              SizedBox(
-                height: 50,
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8,30,8,20),
+                child: Divider(
+                  thickness: 3.0,
+                  color: Color.fromARGB(255, 255, 165, 30),
+                ),
               ),
-              Text(
-                viacepModel.logradouro ?? "",
-                style: TextStyle(fontSize: 22),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Container(
+                      width: double.infinity,
+                      
+                      child: Card(
+                        
+                        color: Color(0xFF3B3A38),
+                        elevation: 20,
+                        child: Container(child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                      Text(
+                      viacepModel.cep ?? "",
+                      style: TextStyle(fontSize: 22,
+                      color: Colors.white70),
+                                  ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                      Text(
+                      viacepModel.logradouro ?? "",
+                      style: TextStyle(fontSize: 22,
+                      color: Colors.white70),
+                                      ),
+                      Text(
+                      viacepModel.bairro ?? "",
+                      style: TextStyle(fontSize: 22,
+                      color: Colors.white70),
+                                      ),
+
+                      Text(
+                      "${viacepModel.localidade ?? ""} - ${viacepModel.uf ?? ""}",
+                      style: TextStyle(fontSize: 22,
+                      color: Colors.white70),
+                                      ),
+                                      if (loading) CircularProgressIndicator()
+                            ]),
+                          ],
+                        ),)
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                "${viacepModel.localidade ?? ""} - ${viacepModel.uf ?? ""}",
-                style: TextStyle(fontSize: 22),
-              ),
-              if (loading) CircularProgressIndicator()
+              
+             
             ],
                   ),
                 ),
