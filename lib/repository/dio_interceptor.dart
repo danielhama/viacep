@@ -5,8 +5,9 @@ class Back4AppDioInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.headers["X-Parse-Application-Id"] =
-        dotenv.get("BACK4APPAPPLICATIONID");
-    options.headers["X-Parse-REST-API-Key"] = dotenv.get("BACK4APPRESTAPIKEY");
+        "cjeVwBbi3kxVXaxV88gUqUyybkqLYclDgDklYof4";
+    options.headers["X-Parse-REST-API-Key"] =
+        "HNU4FBiQi8HAv4MlSP5rQ16e8JsivRka3vT06q4E";
 
     print('REQUEST[${options.method}] => PATH: ${options.path}');
     return super.onRequest(options, handler);
@@ -20,7 +21,7 @@ class Back4AppDioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     print(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     super.onError(err, handler);

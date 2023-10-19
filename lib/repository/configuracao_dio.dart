@@ -10,7 +10,8 @@ class Back4AppCustomDio {
 
   Back4AppCustomDio() {
     _dio.options.headers["Content-Type"] = "application/json";
-    _dio.options.baseUrl = dotenv.get("BACK4APPBASEURL");
+    _dio.options.baseUrl = "https://parseapi.back4app.com/classes";
+
     _dio.interceptors.add(Back4AppDioInterceptor());
   }
 }
