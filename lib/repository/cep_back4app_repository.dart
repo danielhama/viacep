@@ -47,8 +47,8 @@ class ViaCEPRepository {
       var response = await _customDio.dio.delete(
         "/cep/$objectId",
       );
-    } catch (e) {
-      throw e;
+    } catch (response) {
+      throw response;
     }
   }
 

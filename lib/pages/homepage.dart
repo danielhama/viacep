@@ -1,4 +1,3 @@
-import 'dart:js';
 
 import 'package:cepapp/repository/cep_back4app_repository.dart';
 import 'package:cepapp/services/via_cep_service.dart';
