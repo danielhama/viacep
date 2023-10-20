@@ -19,14 +19,6 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
   var viaCEPService = ViaCepService();
   var viaCEPRepository = ViaCEPRepository();
 
-  Future<bool> verifica(ViaCEPModel viaCEPModel) async {
-    bool ja = await viaCEPRepository.obterCEPByCEP(viacepModel.cep!);
-    if (ja) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +83,8 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                     });
                     viacepModel = await viaCEPService.consultarCEP(cep);
                     try {
-                      bool jaexiste = await viaCEPRepository
-                          .obterCEPByCEP(viacepModel.cep!);
+                      bool jaexiste =
+                          await viaCEPRepository.obterCEPByCEP(viacepModel.cep);
                       if (!jaexiste) {
                         await viaCEPRepository.criar(viacepModel);
                       }

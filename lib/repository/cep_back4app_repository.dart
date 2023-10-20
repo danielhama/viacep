@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cepapp/model/viacepmodel.dart';
 import 'package:cepapp/repository/configuracao_dio.dart';
 
@@ -10,17 +12,19 @@ class ViaCEPRepository {
     var url = "/cep";
     var result = await _customDio.dio.get(url);
     Map resultbody = result.data;
-    print(resultbody);
     return jsonToList(resultbody['results']);
   }
 
-  Future<bool> obterCEPByCEP(String cep) async {
+  Future<bool> obterCEPByCEP(String? cep) async {
     var url = "/cep?where=";
-    var result = await _customDio.dio.get('$url{"cep":$cep}');
-    var resultbody = ViaCEPModel.fromJsonEndPoint(result.data);
-    if (resultbody.cep != null) {
+    var result = await _customDio.dio.get('$url{"cep":"$cep"}');
+    // print(result.data['result'][0] == "");
+    // print(result.data['result'].toString());
+    try {
+      var resultbody = ViaCEPModel.fromJsonEndPoint(result.data["results"][0]);
+
       return true;
-    } else {
+    } catch (Exception) {
       return false;
     }
   }
