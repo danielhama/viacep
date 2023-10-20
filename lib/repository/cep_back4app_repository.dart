@@ -17,9 +17,8 @@ class ViaCEPRepository {
   Future<bool> obterCEPByCEP(String cep) async {
     var url = "/cep?where=";
     var result = await _customDio.dio.get('$url{"cep":$cep}');
-    Map resultbody = result.data;
-    print(resultbody);
-    if (resultbody['results'].isNotEmpty) {
+    var resultbody = ViaCEPModel.fromJsonEndPoint(result.data);
+    if (resultbody.cep != null) {
       return true;
     } else {
       return false;

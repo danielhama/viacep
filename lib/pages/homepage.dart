@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:cepapp/repository/cep_back4app_repository.dart';
 import 'package:cepapp/services/via_cep_service.dart';
 import 'package:flutter/material.dart';
@@ -89,9 +91,15 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                       loading = true;
                     });
                     viacepModel = await viaCEPService.consultarCEP(cep);
-
-                    await viaCEPRepository.criar(viacepModel);
-                    
+                    try {
+                      bool jaexiste = await viaCEPRepository
+                          .obterCEPByCEP(viacepModel.cep!);
+                      if (!jaexiste) {
+                        await viaCEPRepository.criar(viacepModel);
+                      }
+                    } catch (e) {
+                      print("Erro ao verificar");
+                    }
                     setState(() {
                       loading = false;
                     });
@@ -161,7 +169,6 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
           ),
         ),
       ),
-
     ));
   }
 }
