@@ -79,11 +79,15 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                       loading = true;
                     });
                     viacepModel = await viaCEPService.consultarCEP(cep);
-                    await viaCEPRepository.criar(viacepModel);
+                    bool jaexiste =
+                        await viaCEPRepository.obterCEPByCEP(viacepModel.cep!);
+                    if (!jaexiste) {
+                      await viaCEPRepository.criar(viacepModel);
+                    }
+                    setState(() {
+                      loading = false;
+                    });
                   }
-                  setState(() {
-                    loading = false;
-                  });
                 },
               ),
               const Padding(
@@ -151,10 +155,7 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {},
-      ),
+
     ));
   }
 }

@@ -12,17 +12,22 @@ class Historico extends StatefulWidget {
 }
 
 class _HistoricoState extends State<Historico> {
-  var cepController = TextEditingController(text: "");
   bool loading = false;
   var viacepModel = ViaCEPModel();
   var viaCEPService = ViaCepService();
   var viaCEPRepository = ViaCEPRepository();
   List<ViaCEPModel> ceps = <ViaCEPModel>[];
 
-  @override
-  void initState() async {
-    super.initState();
-    ceps = await viaCEPRepository.obterCEP();
+  // @override
+  // void initState() async {
+  //   super.initState();
+  //   ceps = await viaCEPRepository.obterCEP();
+  //   setState(() {});
+  // }
+  void apagarRegistro(String objectId) async {
+    await viaCEPRepository.remover(objectId);
+    await viaCEPRepository.obterCEP();
+    setState(() {});
   }
 
   @override
@@ -47,34 +52,56 @@ class _HistoricoState extends State<Historico> {
             ),
           ],
         ),
-        backgroundColor: Color(0xFF3B3A38),
+        backgroundColor: const Color(0xFF3B3A38),
       ),
-      body: ListView(children: [
-        Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Text(
-            viacepModel.cep ?? "",
-            style: const TextStyle(fontSize: 18, color: Colors.white70),
-          ),
-          Text(
-            viacepModel.logradouro ?? "",
-            maxLines: 2,
-            softWrap: true,
-            style: const TextStyle(fontSize: 18, color: Colors.white70),
-          ),
-          Text(
-            viacepModel.bairro ?? "",
-            style: const TextStyle(fontSize: 18, color: Colors.white70),
-          ),
-          Text(
-            "${viacepModel.localidade ?? ""} - ${viacepModel.uf ?? ""}",
-            style: const TextStyle(fontSize: 18, color: Colors.white70),
-          ),
-          if (loading) CircularProgressIndicator()
-        ]),
-      ]),
+      body: ListView.builder(
+          itemCount: ceps.length,
+          itemBuilder: (BuildContext context, int index) {
+            return InkWell(
+              onLongPress: () {
+                apagarRegistro(ceps[index].objectId!);
+              },
+              child: Container(
+                color: Color.fromARGB(255, 93, 91, 87),
+                margin: EdgeInsets.all(10),
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      ceps[index].cep ?? "",
+                      style:
+                          const TextStyle(fontSize: 18, color: Colors.white70),
+                    ),
+                    Text(
+                      ceps[index].logradouro ?? "",
+                      maxLines: 2,
+                      softWrap: true,
+                      style:
+                          const TextStyle(fontSize: 18, color: Colors.white70),
+                    ),
+                    Text(
+                      ceps[index].bairro ?? "",
+                      style:
+                          const TextStyle(fontSize: 18, color: Colors.white70),
+                    ),
+                    Text(
+                      "${ceps[index].localidade ?? " "} - ${ceps[index].uf ?? ""}",
+                      style:
+                          const TextStyle(fontSize: 18, color: Colors.white70),
+                    ),
+                    if (loading) const CircularProgressIndicator(),
+                  ],
+                ),
+              ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {},
+        child: const Icon(Icons.add),
+        onPressed: () async {
+          ceps = await viaCEPRepository.obterCEP();
+          setState(() {});
+        },
       ),
     ));
   }

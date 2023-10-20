@@ -1,6 +1,5 @@
 import 'package:cepapp/model/viacepmodel.dart';
 import 'package:cepapp/repository/configuracao_dio.dart';
-import 'package:cepapp/services/via_cep_service.dart';
 
 class ViaCEPRepository {
   final _customDio = Back4AppCustomDio();
@@ -10,10 +9,21 @@ class ViaCEPRepository {
   Future<List<ViaCEPModel>> obterCEP() async {
     var url = "/cep";
     var result = await _customDio.dio.get(url);
-    var resultbody = result.data;
-    // print(result);
-    // List<Map<String, String>>? body = result["results"];
+    Map resultbody = result.data;
+    print(resultbody);
     return jsonToList(resultbody['results']);
+  }
+
+  Future<bool> obterCEPByCEP(String cep) async {
+    var url = "/cep?where=";
+    var result = await _customDio.dio.get('$url{"cep":$cep}');
+    Map resultbody = result.data;
+    print(resultbody);
+    if (resultbody['results'].isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> criar(ViaCEPModel viacepModel) async {

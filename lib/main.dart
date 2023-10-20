@@ -1,4 +1,3 @@
-import 'package:cepapp/pages/homepage.dart';
 import 'package:cepapp/pages/mainpage.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CEP APP',
       theme: ThemeData(
-      
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

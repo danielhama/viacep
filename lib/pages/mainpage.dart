@@ -42,11 +42,12 @@ class _MainPageState extends State<MainPage> {
                   controller.jumpToPage(value);
                 },
                 currentIndex: posicaoPagina,
+                
                 items: const [
                   BottomNavigationBarItem(
                       label: "Home", icon: Icon(Icons.home)),
-                  BottomNavigationBarItem(label: "Historico", icon: Icon(Icons.history)),
-      
+                  BottomNavigationBarItem(
+                      label: "Historico", icon: Icon(Icons.history))
                 ])
           ],
         ),
