@@ -17,6 +17,16 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
   var viacepModel = ViaCEPModel();
   var viaCEPService = ViaCepService();
   var viaCEPRepository = ViaCEPRepository();
+
+  Future<bool> verifica(ViaCEPModel viaCEPModel) async {
+    bool ja = await viaCEPRepository.obterCEPByCEP(viacepModel.cep!);
+    if (ja) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,11 +89,9 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                       loading = true;
                     });
                     viacepModel = await viaCEPService.consultarCEP(cep);
-                    bool jaexiste =
-                        await viaCEPRepository.obterCEPByCEP(viacepModel.cep!);
-                    if (!jaexiste) {
-                      await viaCEPRepository.criar(viacepModel);
-                    }
+
+                    await viaCEPRepository.criar(viacepModel);
+                    
                     setState(() {
                       loading = false;
                     });
@@ -106,46 +114,44 @@ class _ConsultaCEPState extends State<ConsultaCEP> {
                       child: Card(
                           color: Color(0xFF3B3A38),
                           elevation: 20,
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          viacepModel.cep ?? "",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white70),
-                                        ),
-                                        Text(
-                                          viacepModel.logradouro ?? "",
-                                          maxLines: 2,
-                                          softWrap: true,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white70),
-                                        ),
-                                        Text(
-                                          viacepModel.bairro ?? "",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white70),
-                                        ),
-                                        Text(
-                                          "${viacepModel.localidade ?? ""} - ${viacepModel.uf ?? ""}",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white70),
-                                        ),
-                                        if (loading) CircularProgressIndicator()
-                                      ]),
-                                ),
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        viacepModel.cep ?? "",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white70),
+                                      ),
+                                      Text(
+                                        viacepModel.logradouro ?? "",
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white70),
+                                      ),
+                                      Text(
+                                        viacepModel.bairro ?? "",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white70),
+                                      ),
+                                      Text(
+                                        "${viacepModel.localidade ?? ""} - ${viacepModel.uf ?? ""}",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white70),
+                                      ),
+                                      if (loading) CircularProgressIndicator()
+                                    ]),
+                              ),
+                            ],
                           )),
                     ),
                   ),

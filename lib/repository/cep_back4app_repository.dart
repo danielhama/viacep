@@ -58,7 +58,7 @@ class ViaCEPRepository {
 
     if (lista != null) {
       for (Map<String, dynamic> item in lista) {
-        listamodel.add(ViaCEPModel.fromJson(item));
+        listamodel.add(ViaCEPModel.fromJsonEndPoint(item));
       }
     }
     return listamodel;

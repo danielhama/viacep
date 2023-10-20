@@ -18,16 +18,23 @@ class _HistoricoState extends State<Historico> {
   var viaCEPRepository = ViaCEPRepository();
   List<ViaCEPModel> ceps = <ViaCEPModel>[];
 
-  // @override
-  // void initState() async {
-  //   super.initState();
-  //   ceps = await viaCEPRepository.obterCEP();
-  //   setState(() {});
-  // }
-  void apagarRegistro(String objectId) async {
-    await viaCEPRepository.remover(objectId);
-    await viaCEPRepository.obterCEP();
+  @override
+  void initState() {
+    super.initState();
+    carregar_dador();
     setState(() {});
+  }
+
+  void carregar_dador() async {
+    ceps = await viaCEPRepository.obterCEP();
+    setState(() {});
+  }
+
+  Future<bool> apagarRegistro(String objectId) async {
+    await viaCEPRepository.remover(objectId);
+    ceps = await viaCEPRepository.obterCEP();
+    setState(() {});
+    return true;
   }
 
   @override
@@ -58,12 +65,13 @@ class _HistoricoState extends State<Historico> {
           itemCount: ceps.length,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
-              onLongPress: () {
+              onDoubleTap: () {
                 apagarRegistro(ceps[index].objectId!);
+                setState(() {});
               },
               child: Container(
-                color: Color.fromARGB(255, 93, 91, 87),
-                margin: EdgeInsets.all(10),
+                color: const Color.fromARGB(255, 93, 91, 87),
+                margin: const EdgeInsets.all(10),
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -96,13 +104,13 @@ class _HistoricoState extends State<Historico> {
               ),
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          ceps = await viaCEPRepository.obterCEP();
-          setState(() {});
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.add),
+      //   onPressed: () async {
+      //     ceps = await viaCEPRepository.obterCEP();
+      //     setState(() {});
+      //   },
+      // ),
     ));
   }
 }
